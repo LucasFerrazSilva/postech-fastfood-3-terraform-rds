@@ -10,9 +10,16 @@ data "aws_subnets" "selected" {
   }
 }
 
-# Criar o subnet group para RDS com as subnets encontradas
+# Verificar se o subnet group existe
+data "aws_db_subnet_group" "existing" {
+  count = 1
+  name  = var.db_subnet_group_name
+}
+
+# Criar o subnet group apenas se não existir
 resource "aws_db_subnet_group" "fastfood" {
-  name       = "fastfood-subnet-group"
+  count      = length(data.aws_db_subnet_group.existing) == 0 ? 1 : 0
+  name       = var.db_subnet_group_name
   subnet_ids = data.aws_subnets.selected.ids
 
   tags = {
@@ -20,7 +27,7 @@ resource "aws_db_subnet_group" "fastfood" {
   }
 }
 
-# Cria a instância do banco de dados PostgreSQL
+# Criar a instância do banco de dados PostgreSQL
 resource "aws_db_instance" "fastfood" {
   identifier              = "fastfood-db"                       # nome único da instância RDS
   allocated_storage       = 20                                  # armazenamento mínimo do Free Tier
@@ -33,7 +40,7 @@ resource "aws_db_instance" "fastfood" {
   publicly_accessible     = true                                # permite acesso pela internet
   skip_final_snapshot     = true                                # não gera snapshot ao destruir
   vpc_security_group_ids  = var.vpc_security_group_ids         # SG EXISTENTE
-  db_subnet_group_name    = aws_db_subnet_group.fastfood.name
+  db_subnet_group_name    = var.db_subnet_group_name
 
   tags = {
     Name = "FastFood RDS"

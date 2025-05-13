@@ -22,4 +22,10 @@ variable "db_name" {
 variable "vpc_security_group_ids" {
   description = "Lista de IDs dos security groups para o RDS"
   type        = list(string)
+}
+
+variable "db_subnet_group_name" {
+  description = "Nome do subnet group existente para o RDS"
+  type        = string
+  default     = "fastfood-subnet-group"
 } 
