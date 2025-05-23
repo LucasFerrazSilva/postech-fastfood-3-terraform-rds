@@ -31,7 +31,7 @@ jobs:
           aws-region: "us-east-1"
       
       - name: Terraform Init
-        run: terraform init -backend-config="dynamodb_table=terraform-cicd-lock" 
+        run: terraform init -backend-config="bucket=${{ secrets.TERRAFORM_BUCKET }}" -backend-config="dynamodb_table=terraform-cicd-lock"
         
       - name: Terraform Validate
         run: terraform validate
