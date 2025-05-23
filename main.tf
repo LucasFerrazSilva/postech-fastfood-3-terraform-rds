@@ -10,20 +10,17 @@ data "aws_subnets" "selected" {
   }
 }
 
-# Verificar se o subnet group existe
-data "aws_db_subnet_group" "existing" {
-  count = 1
-  name  = var.db_subnet_group_name
-}
-
-# Criar o subnet group apenas se não existir
+# Criar o subnet group
 resource "aws_db_subnet_group" "fastfood" {
-  count      = length(data.aws_db_subnet_group.existing) == 0 ? 1 : 0
   name       = var.db_subnet_group_name
   subnet_ids = data.aws_subnets.selected.ids
 
   tags = {
     Name = "FastFood DB Subnet Group"
+  }
+
+  lifecycle {
+    ignore_changes = [name]
   }
 }
 
