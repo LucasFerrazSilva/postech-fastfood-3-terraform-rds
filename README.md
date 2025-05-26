@@ -28,7 +28,7 @@ Este projeto contém a infraestrutura como código (IaC) para criar uma instânc
 
 O projeto requer as seguintes variáveis de ambiente/secrets:
 
-- `VPC_ID`: ID da VPC onde o RDS será criado
+- `VPC_ID`: ID da VPC onde o RDS será criado 
 - `DB_USERNAME`: Nome de usuário para o banco de dados
 - `DB_PASSWORD`: Senha do banco de dados
 - `DB_NAME`: Nome do banco de dados
