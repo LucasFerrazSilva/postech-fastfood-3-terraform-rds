@@ -22,7 +22,7 @@ Este projeto contém a infraestrutura como código (IaC) para criar uma instânc
 - Bucket S3 para armazenar o estado do Terraform
 - Tabela DynamoDB para lock do estado
 - VPC existente na AWS
-- Security Group existente na AWS
+- Security Group existente na AWS 
 
 ## Variáveis Necessárias
 
